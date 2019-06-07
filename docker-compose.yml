@@ -81,27 +81,21 @@ services:
         hostname: redis
 
     elasticsearch:
-        image: elasticsearch:2-alpine
-
-    samba:
-        image: dperson/samba
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.7.2
+        hostname: elasticsearch
+        environment:
+          - cluster.name=docker-cluster
+          - bootstrap.memory_lock=true
+          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+          memlock:
+            soft: -1
+            hard: -1
         ports:
-          - "139:139"
-          - "445:445"
-        volumes:
-          - project-data:/share
-        networks:
-            - default
-        command:
-          - -u
-          - test;test
-          - -s
-          - share;/share;no;no;no;test;test
-
+          - "9200:9200"
 
     mongodb:
         image: mongo
-
 
     xhgui:
       build:
