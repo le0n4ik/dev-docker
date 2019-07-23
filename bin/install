@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-winpty docker-compose exec app bash -c 'rm -rf generated/*/*'
-winpty docker-compose exec app php bin/magento setup:uninstall
-winpty docker-compose exec app composer install
+docker-compose exec app bash -c 'rm -rf generated/*/*'
+docker-compose exec app php bin/magento setup:uninstall
+docker-compose exec app composer install
 
-winpty docker-compose exec redis redis-cli  FLUSHALL
-winpty docker-compose exec app bash -c 'rm -rf generated/*/*'
-winpty docker-compose exec db mysql -uroot -proot -e "DROP DATABASE IF EXISTS magento2; CREATE DATABASE IF NOT EXISTS magento2;"
+docker-compose exec redis redis-cli  FLUSHALL
+docker-compose exec app bash -c 'rm -rf generated/*/*'
+docker-compose exec db mysql -uroot -proot -e "DROP DATABASE IF EXISTS magento2; CREATE DATABASE IF NOT EXISTS magento2;"
 
-winpty docker-compose exec app php bin/magento setup:install -vvv \
+docker-compose exec app php bin/magento setup:install -vvv \
     --db-name=magento2 \
     --db-user=root  \
     --db-password=root \
@@ -23,6 +23,11 @@ winpty docker-compose exec app php bin/magento setup:install -vvv \
 	--admin-use-security-key=0 \
 	--backend-frontname=admin \
 	--cache-backend=redis \
-	--cache-backend-redis-server=redis
+	--cache-backend-redis-server=redis \
+#	--amqp-host=rabbitmq \
+#	--amqp-port=5672 \
+#	--amqp-user=guest \
+#	--amqp-password=guest \
+#	--amqp-virtualhost=/
 
-winpty docker-compose exec app php -d memory_limit=-1 bin/magento setup:static-content:deploy -f
+docker-compose exec app php -d memory_limit=-1 bin/magento setup:static-content:deploy -f

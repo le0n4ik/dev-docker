@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-winpty docker-compose exec app php bin/magento setup:performance:generate-fixtures setup/performance-toolkit/profiles/$1/$2.xml
+docker-compose exec app php bin/magento setup:performance:generate-fixtures setup/performance-toolkit/profiles/$1/$2.xml

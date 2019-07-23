@@ -8,9 +8,46 @@ mutagen create \
     --default-file-mode-beta=0644 \
     --default-directory-mode-beta=0755 \
     --sync-mode=two-way-resolved \
-    --ignore /.idea,/.git,/vendor,/bin,/generated,/pub/media/ \
+    --ignore /.idea,/.git,/vendor,/generated,/pub/media,/ee,/b2b \
     --ignore-vcs \
+    --symlink-mode=ignore \
     /c/magento/magento2ce docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento
+
+mutagen create \
+    --default-file-mode-beta=0644 \
+    --default-directory-mode-beta=0755 \
+    --sync-mode=two-way-resolved \
+    --ignore /.idea,/.git,/vendor,/generated,/pub/media \
+    --ignore-vcs \
+    --symlink-mode=ignore \
+    /c/magento/magento2ee docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/ee
+#
+#mutagen create \
+#    --default-file-mode-beta=0644 \
+#    --default-directory-mode-beta=0755 \
+#    --sync-mode=two-way-resolved \
+#    --ignore /.idea,/.git,/vendor,/generated,/pub/media \
+#    --ignore-vcs \
+#    --symlink-mode=ignore \
+#    /c/magento/magento2b2b docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/b2b
+
+mutagen create \
+    --default-file-mode-beta=0644 \
+    --default-directory-mode-beta=0755 \
+    --sync-mode=two-way-resolved \
+    --ignore /.idea,/.git,/vendor,/generated,/pub/media \
+    --ignore-vcs \
+    --symlink-mode=ignore \
+    /c/magento/magento2-sample-data docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/sample-data
+
+mutagen create \
+    --default-file-mode-beta=0644 \
+    --default-directory-mode-beta=0755 \
+    --sync-mode=two-way-resolved \
+    --ignore /.idea,/.git,/vendor,/generated,/pub/media \
+    --ignore-vcs \
+    --symlink-mode=ignore \
+    /c/magento/magento2-sample-data-ee docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/sample-data-ee
 
 # sync generated folder from local to docker immediately,
 # but keeping no-watch for docker side, so only "mutagen flush --all" will get the newest changes from the docker side
@@ -23,3 +60,11 @@ mutagen create \
     --watch-mode-alpha=no-watch \
     --ignore-vcs \
     docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/generated /c/magento/magento2ce/generated
+
+mutagen create \
+--default-file-mode-beta=0644 \
+--default-directory-mode-beta=0755 \
+--sync-mode=two-way-resolved \
+--ignore-vcs \
+--symlink-mode=ignore \
+/c/magento/magento2ce/vendor/magento/magento2-functional-testing-framework docker://$(docker-compose ps|grep docker_app_1|awk '{print $1}')/magento/vendor/magento/magento2-functional-testing-framework

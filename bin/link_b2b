@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+docker-compose exec app php ./ee/dev/tools/build-ee.php --command link --ce-source '/magento' --ee-source '/magento/b2b'

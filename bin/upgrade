@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-winpty docker-compose exec app bash -c 'rm -rf generated/*/*'
-winpty docker-compose exec app composer install
-winpty docker-compose exec app php bin/magento setup:upgrade
-winpty docker-compose exec app php -d memory_limit=-1 bin/magento setup:static-content:deploy -f
-winpty docker-compose exec redis redis-cli  FLUSHALL
